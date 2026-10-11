@@ -23998,5 +23998,28 @@
       "Add stricter validation",
       "Create specific monitors"
     ]
+  },
+  {
+    "incident_id": null,
+    "stream": "SRE",
+    "service": "user-auth-service",
+    "root_cause": "Redis token cache evicted active sessions due to OOM limit reached without LRU policy configured.",
+    "what_worked": [
+      "Flushed stale keys manually",
+      "Increased maxmemory to 4GB"
+    ],
+    "what_failed": [
+      "Restarting the auth pods (caused connection storms)"
+    ],
+    "resolution": [
+      "Increased limits",
+      "Redeployed"
+    ],
+    "lesson_learned": "Always configure an eviction policy (like volatile-lru) when caching sessions, even if TTLs are present.",
+    "prevention": [
+      "Set maxmemory-policy to volatile-lru",
+      "Setup Datadog alert for Redis memory > 80%"
+    ],
+    "postmortem_id": "PM-INC-SRE-201"
   }
 ]
